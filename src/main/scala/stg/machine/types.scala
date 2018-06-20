@@ -43,7 +43,7 @@ object types {
 
     case class Closure(form: LambdaForm, freeVars: List[Var])
 
-    case class Info(short: InfoShort)
+    case class Info(info: InfoShort)
  
     sealed trait InfoShort
     case class NoRulesApply() extends InfoShort
