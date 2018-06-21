@@ -41,5 +41,16 @@ object validTransitions {
         }
     }
 
-    //
+    //rule2_enterNonUpdatable
+
+    def rule3_let(s: StgState): Option[StgState] = {
+        def buildNewState(letBinds: Binds, letExpr: Expr, locals: Locals, st: StgState): StgState = {
+            val (letVars, letLambdaForms) = letBinds.binds.toList.unzip
+        }
+
+        s.stgCode match {
+            case Eval(Let(isRecursive, letBinds, letExpr), locals) => Some(buildNewState(letBinds, letExpr, locals, s))
+            case _ => None
+        }
+    }
 }

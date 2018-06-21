@@ -15,7 +15,7 @@ object types {
         )
 
     sealed trait Code
-    case class Eval(exp: Expr, locals: Locals) extends Code
+    case class Eval(expr: Expr, locals: Locals) extends Code
     case class Enter(memAddress: MemAddress) extends Code
     case class ReturnCon(constr: Constr, vals: List[Value]) extends Code
     case class ReturnInt(int: Int) extends Code
@@ -32,8 +32,9 @@ object types {
     case class Addr(address: MemAddress) extends Value
     case class PrimInt(pimInt: Integer) extends Value
 
-    case class MemAddress(addr: Int)
-
+    // case class MemAddress(addr: Int)
+    type MemAddress = Int
+    
     case class Locals(vals: HashMap[Var, Value])
 
     sealed trait StackFrame

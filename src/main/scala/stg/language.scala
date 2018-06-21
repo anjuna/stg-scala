@@ -12,7 +12,7 @@ object language {
     sealed trait Expr 
     case class Let(isRecursive: Boolean, binds: Binds, expr: Expr) extends Expr
     case class Case(expr: Expr, alts: Alts) extends Expr
-    case class AppFun(myFun: Var, args: List[Atom]) extends Expr
+    case class AppFun(fun: Var, args: List[Atom]) extends Expr
     case class AppConstr(constr: Constr, args: List[Atom]) extends Expr
     case class AppPrim(primOp: PrimOp, arg1: Atom, arg2: Atom) extends Expr
     case class LitE(lit: Literal) extends Expr

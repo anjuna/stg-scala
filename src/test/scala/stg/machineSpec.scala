@@ -7,10 +7,17 @@ import stg.machine.types._
 import stg.language._
 
 class machineEntrySpec extends FlatSpec with Matchers {
-//   "The initial state function" should "create the STG initial state" in {
-      
-//       machine.intialState() 
-//   }
+    "The initial state function" should "create the STG initial state" in {
+        
+        //an empty program
+        val prog = Program(Binds(HashMap.empty[Var, LambdaForm]))
+        val mainVar = "main"
+
+        val initialState = machineEntry.initialState(mainVar, prog)
+        
+        // initialState.stgCode should matchPattern {case Eval(AppFun(mainVar, List()), Locals(_)) => }
+        initialState.stgSteps shouldBe 0
+    }
 
 
     "the terminated function" should "check if the StgState is terminated" in {
@@ -23,7 +30,7 @@ class machineEntrySpec extends FlatSpec with Matchers {
             stgSteps = 0,
             )
 
-        //@todo: sdasd
+        //how to have a factory method that provides default properties for ones I don't care about?
         // val notTerm2 = StgState(stgInfo = Info(StateInitial()))
         // val notTerm3 = StgState(stgInfo = Info(GarbageCollection()))
 
