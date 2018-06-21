@@ -6,7 +6,7 @@ import stg.language._
 import stg.util._
 import stg.machine.types._
 import stg.machine.env._
-import stg.machine.env._
+import stg.machine.heap._
 
 object validTransitions {
     def rule1_functionApp(s: StgState): Option[StgState] = {
@@ -44,13 +44,25 @@ object validTransitions {
     //rule2_enterNonUpdatable
 
     def rule3_let(s: StgState): Option[StgState] = {
-        def buildNewState(letBinds: Binds, letExpr: Expr, locals: Locals, st: StgState): StgState = {
+        def buildNewState(isRecursive: Boolean, letBinds: Binds, letExpr: Expr, locals: Locals, st: StgState): StgState = {
             val (letVars, letLambdaForms) = letBinds.binds.toList.unzip
+
+            //alloc some blackholes on the heap, to be overriden when we later find the let vars
+            val (newAddrs, heapWithPreallocations) = allocMany(letVars.map(_ => Blackhole(0)), st.stgHeap)
+
+            //set up new local environment by appending the letvars mapped to new addresses on the heap to the original
+            val newLocals = Locals(locals.locals ++ (letVars zip newAddrs).map(e => e._1 -> Addr(e._2)).toMap)
+
+            val localsRhs = if (isRecursive) newLocals else locals
+
+
         }
 
         s.stgCode match {
-            case Eval(Let(isRecursive, letBinds, letExpr), locals) => Some(buildNewState(letBinds, letExpr, locals, s))
+            case Eval(Let(isRecursive, letBinds, letExpr), locals) => Some(buildNewState(isRecursive, letBinds, letExpr, locals, s))
             case _ => None
         }
     }
+
+    protected def liftLambdaToClosure(locals: Locals, )
 }

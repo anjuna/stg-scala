@@ -35,7 +35,7 @@ object types {
     // case class MemAddress(addr: Int)
     type MemAddress = Int
     
-    case class Locals(vals: HashMap[Var, Value])
+    case class Locals(locals: HashMap[Var, Value])
 
     sealed trait StackFrame
     case class ArgumentFrame(myVal: Value) extends StackFrame
