@@ -27,9 +27,9 @@ object evaluate {
 
     def rules(): List[StgState => Option[StgState]] = {
         List(
-            validTransitions.rule1_functionApp
+            validTransitions.rule1_functionApp,
             // validTransitions.rule2_enterNonUpdatable, 
-            // validTransitions.rule3_let, 
+            validTransitions.rule3_let
             // validTransitions.rule1819_casePrimopShortcut
             // validTransitions.rule4_case, 
             // validTransitions.rule5_constructorApp, 

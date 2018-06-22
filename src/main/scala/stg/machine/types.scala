@@ -23,7 +23,7 @@ object types {
     case class Heap(heapMap: HashMap[MemAddress, HeapObject])
 
     sealed trait HeapObject
-    case class HClosure(closure: Closure) extends HeapObject
+    case class Closure(form: LambdaForm, freeVarValues: List[Value]) extends HeapObject
     case class Blackhole(tag: Int) extends HeapObject
 
     case class Globals(vals: HashMap[Var, Value])
@@ -41,8 +41,6 @@ object types {
     case class ArgumentFrame(myVal: Value) extends StackFrame
     case class ReturnFrame(alts: Alts, locals: Locals) extends StackFrame
     case class UpdateFrame(memAddr: MemAddress) extends StackFrame
-
-    case class Closure(form: LambdaForm, freeVars: List[Var])
 
     case class Info(info: InfoShort)
  

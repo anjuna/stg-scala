@@ -19,9 +19,16 @@ object env {
         }
     }
 
-    //how to do a traverse in scala?? can't quite figure how to accumulate failures..
     def getAtomsValue(locals: Locals, globals: Globals, atoms: List[Atom]): Validate[NotInScope, List[Value]] = {
-        traverser[NotInScope, Value, Atom](atoms, getAtomValue(locals, globals))
+        traverser[NotInScope, Atom, Value](atoms, getAtomValue(locals, globals))
+    }
+
+    def localsValue(locals: Locals)(atom: Atom): Validate[NotInScope, Value] = {
+        getAtomValue(locals, Globals(HashMap.empty))(atom)
+    }
+
+    def globalsValue(globals: Globals, atom: Atom): Validate[NotInScope, Value] = {
+        getAtomValue(Locals(HashMap.empty), globals)(atom)
     }
 }
 
