@@ -21,4 +21,22 @@ class machineEntrySpec extends FlatSpec with Matchers {
         //the highest address (2) now contains that last black hole, which we tagged with 3
         h2.heapMap(2) shouldBe Blackhole(3)
     }
+
+    "updating heap object at address" should "work" in {
+        val obj = Blackhole(0)
+        val initial = Heap(HashMap.empty)
+
+        val (addr, h) = heap.alloc(obj, initial)
+
+        addr shouldBe 0
+
+        val newOb = Blackhole(1)
+        val updatedHeap = heap.update(addr, newOb, h)
+
+        updatedHeap.heapMap.get(addr) match {
+            case Some(ob) => ob shouldBe newOb
+            case None => true shouldBe false
+        }
+    }
 }
+
