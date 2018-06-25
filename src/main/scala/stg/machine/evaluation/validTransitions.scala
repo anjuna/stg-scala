@@ -51,10 +51,15 @@ object validTransitions {
             val (newAddrs, heapWithPreallocations) = allocMany(letVars.map(_ => Blackhole(0)), stgState.stgHeap)
 
             //set up new local environment by appending the letvars mapped to new addresses on the heap to the original
-            val newLocals = Locals(locals.locals ++ (letVars zip newAddrs).map(e => e._1 -> Addr(e._2)).toMap)
+            // val newLocals = Locals(locals.locals ++ (letVars zip newAddrs).map(e => e._1 -> Addr(e._2)).toMap)
 
-            //new locals are invisible to 
-            val localsRhs = if (isRecursive) newLocals else locals
+            //for a non recursive let, its own vars are invisible to the bound lambda forms
+            //if recursive, we extend the local environment to include these vars
+            val localsRhs = if (isRecursive) {
+                Locals(locals.locals ++ (letVars zip newAddrs).map(e => e._1 -> Addr(e._2)).toMap)
+            } else {
+                locals 
+            }
        
             traverser[NotInScope, LambdaForm, Closure](letLambdaForms, liftLambdaToClosure(localsRhs)) match {
                 case Success(closures) => {

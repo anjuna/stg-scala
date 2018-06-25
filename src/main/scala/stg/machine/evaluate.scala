@@ -12,17 +12,18 @@ object evaluate {
 
     def stgRule(state: StgState): StgState = {
 
-        def applyRules(s: StgState, rulesLeft: List[StgState => Option[StgState]]): StgState = {
+        //go through list of rules, find one that applies and return new state 
+        def tryRules(s: StgState, rulesLeft: List[StgState => Option[StgState]]): StgState = {
             rulesLeft match {
                 case h :: tail => h(s) match {
-                    case None => applyRules(s, tail)
-                    case Some(s) => s
+                    case None => tryRules(s, tail)
+                    case Some(newState) => newState
                 }
                 case _ => noRulesApply(s)
             }
         }
 
-        applyRules(state, rules)
+        tryRules(state, rules)
     }
 
     def rules(): List[StgState => Option[StgState]] = {
