@@ -17,10 +17,8 @@ object language {
     case class AppPrim(primOp: PrimOp, arg1: Atom, arg2: Atom) extends Expr
     case class LitE(lit: Literal) extends Expr
 
-
-    case class LambdaForm(freeVars: List[Var], isUpdateable: Boolean, boundVars: List[Var], body: Expr)
     case class Binds(binds: HashMap[Var, LambdaForm])
-
+    case class LambdaForm(freeVars: List[Var], isUpdateable: Boolean, boundVars: List[Var], body: Expr)
 
     case class Alts(nonDefaults: NonDefaultAlts, default: DefaultAlt)
 

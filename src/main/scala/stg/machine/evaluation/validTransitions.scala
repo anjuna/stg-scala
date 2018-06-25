@@ -36,7 +36,7 @@ object validTransitions {
         }
 
         s.stgCode match {
-            case Eval(exp @ AppFun(fun, args), locals) => buildNewState(fun, args, locals, s)
+            case Eval(AppFun(fun, args), locals) => buildNewState(fun, args, locals, s)
             case _ => None
         }
     }
@@ -50,11 +50,34 @@ object validTransitions {
             //alloc some blackholes on the heap, to be overriden when we later find the let vars
             val (newAddrs, heapWithPreallocations) = allocMany(letVars.map(_ => Blackhole(0)), stgState.stgHeap)
 
-            //set up new local environment by appending the letvars mapped to new addresses on the heap to the original
-            // val newLocals = Locals(locals.locals ++ (letVars zip newAddrs).map(e => e._1 -> Addr(e._2)).toMap)
 
             //for a non recursive let, its own vars are invisible to the bound lambda forms
             //if recursive, we extend the local environment to include these vars
+
+
+            /*  
+                non recursive let:
+
+                let 
+                    x = \x1 -> expr1(x1)
+                    y = \y1 -> expr2(y1)
+                in exp(...)
+
+                in each of the lambda forms involving x1 and y1 respectively, the local 
+                environment does NOT include x and y themselves.
+
+                however:
+
+                let 
+                    x = \x1 -> expr1(x1, x)
+                    y = \y1 -> expr2(y1, x, y)
+                in exp(...)
+
+                here each of the lambda forms needs to have access to the heap addresses of the
+                let vars, so we pass them to liftLambdaToClosure for access
+            */
+
+
             val localsRhs = if (isRecursive) {
                 Locals(locals.locals ++ (letVars zip newAddrs).map(e => e._1 -> Addr(e._2)).toMap)
             } else {
@@ -90,6 +113,21 @@ object validTransitions {
             case Success(vals) => Success(Closure(form = lambdaForm, freeVarValues = vals))
             case Failure(missingVars) => Failure(missingVars)
         }   
+    }
+
+    def rule4_case(s: StgState): Option[StgState] = {
+        
+        def buildNewState(caseExpr: Expr, caseAlts: Alts, locals: Locals, stgState: StgState): StgState = {
+            
+            val unusedLocals = 
+            
+            val newStack = stgState.stgStack.push(ReturnFrame(caseAlts, ))
+        }
+        
+        s.stgCode match {
+            case Eval(Case(expr, alts), locals) => Some(buildNewState(expr, alts, locals, s))
+            case _ => None
+        }
     }
 }
 

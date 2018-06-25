@@ -37,7 +37,7 @@ object heap {
     }
 
     def updateMany(maps: List[(MemAddress, HeapObject)], heap: Heap): Heap = {
-        maps.foldRight(heap){ case ((addr, ob), h) => 
+        maps.foldRight(heap){ case ((addr, ob), h) => {}
             update(addr, ob, heap)
         }
     }
