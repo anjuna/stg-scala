@@ -57,37 +57,37 @@ object types {
 
     sealed trait StateError
     case class VariablesNotInScope(vars: List[Var]) extends StateError
-    case class UpdatableClosureWithArgs() extends StateError
-    case class ReturnIntWithEmptyReturnStack() extends StateError
-    case class AlgReturnToPrimAlts() extends StateError
-    case class PrimReturnToAlgAlts() extends StateError
-    case class InitialStateCreationFailed() extends StateError
-    case class EnterBlackhole() extends StateError
-    case class UpdateClosureWithPrimitive() extends StateError
-    case class NonAlgPrimScrutinee() extends StateError
-    case class DivisionByZero() extends StateError
+    case object UpdatableClosureWithArgs extends StateError
+    case object ReturnIntWithEmptyReturnStack extends StateError
+    case object AlgReturnToPrimAlts extends StateError
+    case object PrimReturnToAlgAlts extends StateError
+    case object InitialStateCreationFailed extends StateError
+    case object EnterBlackhole extends StateError
+    case object UpdateClosureWithPrimitive extends StateError
+    case object NonAlgPrimScrutinee extends StateError
+    case object DivisionByZero extends StateError
     case class BadConArity(scrutinee: Int, pattern: Int)  extends StateError
 
     sealed trait StateTransition
-    case class Rule1_Eval_FunctionApplication() extends StateTransition
-    case class Rule2_Enter_NonUpdatableClosure() extends StateTransition
-    case class Rule3_Eval_Let(isRecursive: Boolean) extends StateTransition
-    case class Rule4_Eval_Case() extends StateTransition
-    case class Rule5_Eval_AppC() extends StateTransition
-    case class Rule6_ReturnCon_Match() extends StateTransition
-    case class Rule7_ReturnCon_DefUnbound() extends StateTransition
-    case class Rule8_ReturnCon_DefBound() extends StateTransition
-    case class Rule9_Lit() extends StateTransition
-    case class Rule10_LitApp() extends StateTransition
-    case class Rule11_ReturnInt_Match() extends StateTransition
-    case class Rule12_ReturnInt_DefBound() extends StateTransition
-    case class Rule13_ReturnInt_DefUnbound() extends StateTransition
-    case class Rule14_Eval_AppP() extends StateTransition
-    case class Rule15_Enter_UpdatableClosure() extends StateTransition
-    case class Rule16_ReturnCon_Update() extends StateTransition
-    case class Rule17_Enter_PartiallyAppliedUpdate() extends StateTransition
-    case class Rule17a_Enter_PartiallyAppliedUpdate() extends StateTransition
-    case class Rule1819_Eval_Case_Primop_Shortcut() extends StateTransition
+    case object Rule1_Eval_FunctionApplication extends StateTransition
+    case object Rule2_Enter_NonUpdatableClosure extends StateTransition
+    case class  Rule3_Eval_Let(isRecursive: Boolean) extends StateTransition
+    case object Rule4_Eval_Case extends StateTransition
+    case object Rule5_Eval_AppC extends StateTransition
+    case object Rule6_ReturnCon_Match extends StateTransition
+    case object Rule7_ReturnCon_DefUnbound extends StateTransition
+    case object Rule8_ReturnCon_DefBound extends StateTransition
+    case object Rule9_Lit extends StateTransition
+    case object Rule10_LitApp extends StateTransition
+    case object Rule11_ReturnInt_Match extends StateTransition
+    case object Rule12_ReturnInt_DefBound extends StateTransition
+    case object Rule13_ReturnInt_DefUnbound extends StateTransition
+    case object Rule14_Eval_AppP extends StateTransition
+    case object Rule15_Enter_UpdatableClosure extends StateTransition
+    case object Rule16_ReturnCon_Update extends StateTransition
+    case object Rule17_Enter_PartiallyAppliedUpdate extends StateTransition
+    case object Rule17a_Enter_PartiallyAppliedUpdate extends StateTransition
+    case object Rule1819_Eval_Case_Primop_Shortcut extends StateTransition
 
 }
 

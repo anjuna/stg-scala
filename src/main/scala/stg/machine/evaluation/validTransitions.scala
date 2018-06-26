@@ -119,7 +119,7 @@ object validTransitions {
         
         def buildNewState(caseExpr: Expr, caseAlts: Alts, locals: Locals, stgState: StgState): StgState = {
             
-            val unusedLocals = 
+            // val unusedLocals = ... something
             
             val newStack = stgState.stgStack.push(ReturnFrame(caseAlts, ))
         }

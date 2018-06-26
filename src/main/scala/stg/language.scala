@@ -20,12 +20,15 @@ object language {
     case class Binds(binds: HashMap[Var, LambdaForm])
     case class LambdaForm(freeVars: List[Var], isUpdateable: Boolean, boundVars: List[Var], body: Expr)
 
-    case class Alts(nonDefaults: NonDefaultAlts, default: DefaultAlt)
+    case class Alts(nonDefaults: NonDefaultAlts, defaults: DefaultAlt)
 
     sealed trait NonDefaultAlts
-    case class NoNonDefaultAlts() extends NonDefaultAlts
-    case class AlgebraicAlt(constr: Constr, vars: List[Var], expr: Expr) extends NonDefaultAlts
-    case class PrimAlt(lit: Literal, expr: Expr) extends NonDefaultAlts
+    case object NoNonDefaultAlts extends NonDefaultAlts
+    case class AlgebraicAlts(alts: List[AlgebraicAlt]) extends NonDefaultAlts
+    case class PrimAlts(alts: List[PrimAlt]) extends NonDefaultAlts
+
+    case class AlgebraicAlt(constr: Constr, vars: List[Var], expr: Expr)
+    case class PrimAlt(lit: Literal, expr: Expr)
 
     sealed trait DefaultAlt
     case class DefaultNotBound(expr: Expr) extends DefaultAlt
@@ -38,17 +41,17 @@ object language {
     case class Constr(name: String)
 
     sealed trait PrimOp
-    case class Add() extends PrimOp
-    case class Sub() extends PrimOp
-    case class Mul() extends PrimOp
-    case class Div() extends PrimOp
-    case class Mod() extends PrimOp
-    case class Eq() extends PrimOp
-    case class Lt() extends PrimOp
-    case class Leq() extends PrimOp
-    case class Gt() extends PrimOp
-    case class Geq() extends PrimOp
-    case class Neq() extends PrimOp
+    case object Add extends PrimOp
+    case object Sub extends PrimOp
+    case object Mul extends PrimOp
+    case object Div extends PrimOp
+    case object Mod extends PrimOp
+    case object Eq extends PrimOp
+    case object Lt extends PrimOp
+    case object Leq extends PrimOp
+    case object Gt extends PrimOp
+    case object Geq extends PrimOp
+    case object Neq extends PrimOp
 }
 
 
